@@ -18,7 +18,7 @@ int main() {
     std::wstring MONKA_HWID_PART = L"vid_05ac&pid_024f";
     std::vector<std::wstring> monkaPaths = devManager.GetDevices(MONKA_HWID_PART);
     for (const std::wstring p : monkaPaths){
-        
+        HidDevice hidD()
     }
 
     LedController ledController;

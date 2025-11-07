@@ -7,7 +7,7 @@
 
 using namespace monkaDriver;
 
-bool DeviceManager::ScanDevices()
+int DeviceManager::ScanDevices()
 {
     // TODO: detect all HID devices
     Logger::Info("Initializing DeviceManager...");
@@ -57,7 +57,7 @@ bool DeviceManager::ScanDevices()
 
 std::vector<std::wstring> DeviceManager::GetDevices(const std::wstring &hwidPart)
 {
-    // Logger::Info("Enumerating HID devices...");
+    Logger::Info("Getting HID devices...");
     std::vector<std::wstring> paths;
     for (const std::wstring &p : devicePaths_)
     {

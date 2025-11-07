@@ -5,14 +5,7 @@
 
 using namespace monkaDriver;
 
-HidDevice::HidDevice() {}
-
-HidDevice::~HidDevice()
-{
-    Close();
-}
-
-bool HidDevice::Open(const std::wstring &devicePath, bool writeOnly)
+HidDevice::HidDevice(const std::wstring &devicePath, bool writeOnly = false)
 {
     DWORD access = writeOnly ? GENERIC_WRITE : (GENERIC_READ | GENERIC_WRITE);
     DWORD shareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
@@ -30,15 +23,13 @@ bool HidDevice::Open(const std::wstring &devicePath, bool writeOnly)
     {
         DWORD err = GetLastError();
         Logger::Error("Failed to open HID device: " + std::to_string(err));
-        return false;
     }
 
     devicePath_ = devicePath;
-    Logger::Info("Opened HID device successfully ✅");
-    return true;
+    Logger::Info("Opened HID device successfully.");
 }
 
-void HidDevice::Close()
+HidDevice::~HidDevice()
 {
     if (handle_ != INVALID_HANDLE_VALUE)
     {
@@ -84,11 +75,12 @@ bool HidDevice::ReadReport(unsigned char *buffer, size_t length)
     return true;
 }
 
-void HidDevice::PrintCaps()
+void HidDevice::LogCaps()
 {
     PHIDP_PREPARSED_DATA preparsedData;
     if (!HidD_GetPreparsedData(handle_, &preparsedData))
     {
+        return;
     }
 
     HIDP_CAPS caps;
@@ -96,7 +88,8 @@ void HidDevice::PrintCaps()
 
     Logger::Debug("Usage: 0x" + )
 
-    std::wcout << "Usage: 0x" << std::hex << caps.Usage << std::endl;
+            std::wcout
+        << "Usage: 0x" << std::hex << caps.Usage << std::endl;
     std::wcout << "UsagePage: 0x" << caps.UsagePage << std::dec << std::endl;
     std::wcout << "InputReportByteLength: " << caps.InputReportByteLength << std::endl;
     std::wcout << "OutputReportByteLength: " << caps.OutputReportByteLength << std::endl;

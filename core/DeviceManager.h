@@ -7,7 +7,7 @@ namespace monkaDriver
     class DeviceManager
     {
     public:
-        bool ScanDevices();
+        int ScanDevices();
         std::vector<std::wstring> GetDevices(const std::wstring &);
 
     private:
